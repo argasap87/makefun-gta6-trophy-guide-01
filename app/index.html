@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HEISTBOARD — GTA 6 Trophy Guide &amp; Tracker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="brand">
+    <p class="kicker">LEONIDA EVIDENCE WALL &bull; CASE FILE GTA-6</p>
+    <h1>HEISTBOARD</h1>
+    <p class="tagline">55 TROPHIES &bull; 1 BOARD &bull; 0 MISSED CLUES</p>
+    <p class="sub">Every PlayStation 5 trophy for Grand Theft Auto VI, pinned as evidence. Tick a trophy off when you earn it — the board rearranges, the string tightens, and the case closes.</p>
+  </div>
+  <div class="progressbox" id="progressBox" aria-live="polite">
+    <p class="progresslabel">CASE PROGRESS</p>
+    <p class="progressbig"><span id="earnedCount">0</span><span class="of"> / 55</span></p>
+    <div class="progressbar" role="progressbar" aria-valuemin="0" aria-valuemax="55" aria-valuenow="0" id="progressBarWrap"><div class="progressfill" id="progressFill"></div></div>
+    <p class="progressnote" id="progressNote">Case open. 55 trophies still at large.</p>
+    <ul class="gradecounts" id="gradeCounts"></ul>
+    <p class="legend"><span class="sw platinum"></span>Platinum <span class="sw gold"></span>Gold <span class="sw silver"></span>Silver <span class="sw bronze"></span>Bronze &nbsp;|&nbsp; <span class="flag">MISSABLE</span> do it before the story moves on</p>
+    <p class="demoline" id="demoLine" hidden>Demo progress is loaded from the page address (?demo=). Use Reset to clear it.</p>
+  </div>
+</header>
+
+<nav class="toolbar" aria-label="Guide controls">
+  <div class="tabs" role="tablist">
+    <button type="button" class="tab active" data-view="board" role="tab" aria-selected="true">Evidence Board</button>
+    <button type="button" class="tab" data-view="roadmap" role="tab" aria-selected="false">Roadmap to Platinum</button>
+    <button type="button" class="tab" data-view="missables" role="tab" aria-selected="false">Missables — 17 flagged</button>
+  </div>
+  <div class="controls">
+    <label class="ctl">Search <input type="search" id="searchInput" placeholder="Name or mission…" autocomplete="off"></label>
+    <label class="ctl">Kind
+      <select id="kindFilter">
+        <option value="all">All kinds</option>
+        <option value="story">Story</option>
+        <option value="missable">Missable</option>
+        <option value="collectibles">Collectibles</option>
+        <option value="activities">Activities</option>
+        <option value="online">Online (0 in this list)</option>
+      </select>
+    </label>
+    <label class="ctl">Grade
+      <select id="gradeFilter">
+        <option value="all">All grades</option>
+        <option value="platinum">Platinum</option>
+        <option value="gold">Gold</option>
+        <option value="silver">Silver</option>
+        <option value="bronze">Bronze</option>
+      </select>
+    </label>
+    <label class="check"><input type="checkbox" id="spoilerToggle"> Spoiler guard — hide story names until earned</label>
+    <label class="check"><input type="checkbox" id="earnedOnly"> Earned only</label>
+    <button type="button" id="exportBtn" class="btn">Export progress</button>
+    <label class="btn filebtn">Import progress <input type="file" id="importFile" accept=".json,application/json" hidden></label>
+    <button type="button" id="resetBtn" class="btn danger">Reset</button>
+  </div>
+  <p class="filterline" id="filterLine">Showing all 55 trophies.</p>
+</nav>
+
+<main class="layout">
+  <section id="view-board" class="view" aria-label="Evidence board">
+    <p class="boardnote">Pinned in tier lanes, numbered in official order. Red string joins the story thread: opening mission &rarr; four chapters &rarr; finale. Click any Polaroid to open its case file.</p>
+    <svg class="redstring" viewBox="0 0 1200 26" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,13 C150,4 300,22 450,12 S750,4 900,14 S1100,22 1200,10" fill="none" stroke="#c0392b" stroke-width="2.5"/>
+      <circle cx="150" cy="8" r="4" fill="#c0392b"/><circle cx="450" cy="12" r="4" fill="#c0392b"/>
+      <circle cx="750" cy="9" r="4" fill="#c0392b"/><circle cx="1050" cy="18" r="4" fill="#c0392b"/>
+    </svg>
+    <div id="lanes"></div>
+  </section>
+
+  <section id="view-roadmap" class="view" hidden aria-label="Roadmap to the platinum">
+    <h2>Roadmap to the platinum</h2>
+    <p class="roadmapintro" id="roadmapIntro"></p>
+    <div id="roadmapStages"></div>
+    <p class="honest">Built from the official descriptions only. Where a place or step is not pinned down by the description, the guide says so instead of guessing — the game was a day old when this guide was written.</p>
+  </section>
+
+  <section id="view-missables" class="view" hidden aria-label="Missable trophies">
+    <h2>Missables — 17 flagged</h2>
+    <p class="roadmapintro" id="missableRule"></p>
+    <div id="missableList"></div>
+    <p class="honest">Flags are our reading of the official descriptions, not yet checked in-game. Before you assume a trophy is lost, check the game's mission-replay menu — a replayed mission may still pay out.</p>
+  </section>
+
+  <aside class="detail" id="detailPanel" aria-label="Trophy case file">
+    <p class="detailkicker">CASE FILE — CLICK A POLAROID</p>
+    <div id="detailBody">
+      <p class="detailhint">Pick any trophy on the board. Its official name, description and grade, our guide, and its sources open here — with the red string that ties it to the rest of the case.</p>
+    </div>
+  </aside>
+</main>
+
+<footer class="foot">
+  <p><strong>Sources.</strong> Official names, descriptions and grades: the PlayStation trophy list as listed on Exophase. PSN counts and targets (42 Shooting Range challenges, 100 WAiNK locations, 52 areas, and the rest): PSNProfiles. List frozen 18 Nov 2026. Every guide is HEISTBOARD's own advice from the official description, labelled as not yet checked in-game — no guide text was copied from any other guide.</p>
+  <p><strong>Offline.</strong> This guide loads only its own files and works with the network off. Progress is saved in this browser only (localStorage) and can be exported to a file and imported back. No Rockstar logo, artwork or game screenshots are used anywhere — the look is entirely our own.</p>
+  <p>HEISTBOARD is an unofficial fan guide. Grand Theft Auto and GTA are trademarks of their owner; this guide is not affiliated with or endorsed by Rockstar Games or PlayStation.</p>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
